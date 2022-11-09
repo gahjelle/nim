@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nim i Python</title>
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  <style>
+    body {
+      background-color: #eee;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: minmax(200px, auto);
+      grid-gap: 1em;
+      margin-top: 1em;
+    }
+
+    .container>div:first-child {
+      grid-row: 1/3;
+    }
+
+    .container>div {
+      background-color: #fff;
+      box-shadow: 0px 5px 10px #ccc;
+      padding: 10px;
+    }
+  </style>
+
+<py-script src="nim.py"></py-script>
+</head>
+
+<body>
+  <h1>Lek med Nim i Python</h1>
+  <div class="container">
+    <div>
+      <py-repl std-out="output-pane" std-err="errors-pane">
+def alltid_to(antall):
+    return 2
+
+spill(alltid_to)
+</py-repl>
+    </div>
+    <div>
+      <button id="nytt-spill-btn" type="button">Nytt spill</button>
+      <hr>
+      <div id="output-pane"></div>
+      <hr>
+      <button id="velg-1-btn" type="button">Ta 1</button>
+      <button id="velg-2-btn" type="button">Ta 2</button>
+      <button id="velg-3-btn" type="button">Ta 3</button>
+    </div>
+    <div>
+      <b>Feil og advarsler</b>
+      <hr>
+      <div id="errors-pane"></div>
+    </div>
+  </div>
+  <py-script>
+from js import document
+from pyodide import create_proxy
+
+def nytt_spill(event):
+    global antall
+    clear()
+    antall = 15
+    info(antall)
+
+
+def velg(valg):
+    def spiller(antall):
+        return valg    
+    spill(spiller)
+
+def velg_1(event):
+    velg(1)
+
+def velg_2(event):
+    velg(2)
+
+def velg_3(event):
+    velg(3)
+
+document.getElementById("nytt-spill-btn").addEventListener("click", create_proxy(nytt_spill))
+document.getElementById("velg-1-btn").addEventListener("click", create_proxy(velg_1))
+document.getElementById("velg-2-btn").addEventListener("click", create_proxy(velg_2))
+document.getElementById("velg-3-btn").addEventListener("click", create_proxy(velg_3))
+
+  </py-script>
+</body>
+
+</html>
