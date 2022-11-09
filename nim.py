@@ -3,19 +3,12 @@ error_div = Element("errors-pane")
 
 antall = 15
 tur = "A"
+start = {}
 
 
 def clear(*args, **kwargs):
     output_div.element.innerText = ""
     error_div.element.innerText = ""
-
-
-def nytt_spill():
-    global antall, tur
-    antall = 15
-    tur = "A"
-    clear()
-    info(antall)
 
 
 def info(antall):

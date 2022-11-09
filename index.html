@@ -67,7 +67,7 @@ from pyodide import create_proxy
 def nytt_spill(event):
     global antall
     clear()
-    antall = 15
+    antall = start.get("antall", 15)
     info(antall)
 
 
